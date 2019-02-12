@@ -6,6 +6,7 @@ struct User: Validatable {
 
     static func validations() throws -> Validations<User> {
         var validations = Validations(User.self)
+        validations.add(\.mail, at: ["mail"], !.empty)
         validations.add(\.mail, at: ["mail"], .mail)
         return validations
     }
@@ -22,10 +23,20 @@ final class ValidationTests: XCTestCase {
 
         user.mail = "invalid_mail"
         do { try user.validate() }
-        catch {
-            XCTAssertNotNil(error as? ValidationError, "invalid mail should throw a ValidationError")
+        catch let error as ValidationError {
             XCTAssertEqual("\(error)", "'mail' is not a valid email address")
+        } catch {
+            XCTFail("A non validation error as been thrown")
         }
+
+        user.mail = ""
+        do { try user.validate() }
+        catch let error as ValidationError {
+            XCTAssertEqual("\(error)", "'mail' is empty")
+        } catch {
+            XCTFail("A non validation error as been thrown")
+        }
+        
     }
 
     static var allTests = [
