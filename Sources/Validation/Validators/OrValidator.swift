@@ -51,13 +51,18 @@ fileprivate struct OrValidator<T> : ValidatorType {
 fileprivate struct OrValidationError: ValidationError, CustomStringConvertible {
 
     /// Error thrown by the left `Validator`.
-    private let lhs: ValidationError
+    private var lhs: ValidationError
 
     /// Error thrown by the right `Validator`.
-    private let rhs: ValidationError
+    private var rhs: ValidationError
 
     /// See `ValidationError`.
-    var path: [String]
+    var path: [String] {
+        didSet {
+            lhs.path = path + lhs.path
+            rhs.path = path + rhs.path
+        }
+    }
 
     /// Readable description of `ValidationError`s
     var description: String {

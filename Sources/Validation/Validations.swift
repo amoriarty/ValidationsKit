@@ -35,7 +35,7 @@ public struct Validations<Model> where Model: Validatable {
         let validator = Validator<Model>(readable) { model in
             do { try custom(model[keyPath: keyPath]) }
             catch {
-                guard var err = error as? BasicValidationError else { throw error }
+                guard var err = error as? ValidationError else { throw error }
                 err.path = path
                 throw err
             }
