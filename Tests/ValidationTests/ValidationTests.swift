@@ -8,6 +8,7 @@ struct TestModel: Validatable {
     var ascii: String
     var alphanumeric: String
     var password: String
+    var delivery: String
 
     static func validations() throws -> Validations<TestModel> {
         var validations = Validations(TestModel.self)
@@ -17,6 +18,7 @@ struct TestModel: Validatable {
         validations.add(\.ascii, at: ["ascii"], .ascii)
         validations.add(\.alphanumeric, at: ["alphanumeric"], .alphanumeric)
         validations.add(\.password, at: ["password"], .alphanumeric && .count(8...12))
+        validations.add(\.delivery, at: ["delivery"], .in("short", "long"))
         return validations
     }
 
@@ -30,7 +32,8 @@ final class ValidationTests: XCTestCase {
                         picture: nil,
                         ascii: "someasciitext",
                         alphanumeric: "S0m3alphanum3rictext",
-                        password: "somesuperpw")
+                        password: "somesuperpw",
+                        delivery: "long")
 
         do { try user.validate() }
         catch { XCTFail("valid mail return an error.") }
@@ -104,6 +107,15 @@ final class ValidationTests: XCTestCase {
         do { try  user.validate() }
         catch let error as ValidationError {
             XCTAssertEqual("\(error)", "'password' is greater than required maximum of 12 characters")
+        } catch {
+            XCTFail("A non validation error as been thrown")
+        }
+
+        user.password = "somesuperpw"
+        user.delivery = "not in"
+        do { try user.validate() }
+        catch let error as ValidationError {
+            XCTAssertEqual("\(error)", "'delivery' isn't in short, long")
         } catch {
             XCTFail("A non validation error as been thrown")
         }

@@ -43,9 +43,16 @@ fileprivate struct CountValidator<T: Collection>: ValidatorType {
     private let max: Int?
 
     /// See `ValidatorType`
-    // TODO: Complete `readable`
     var readable: String {
-        return ""
+        if let min = min, let max = max {
+            return "between \(min) and \(element(for: max))"
+        } else if let min = min {
+            return "at least \(element(for: min))"
+        } else if let max = max {
+            return "at most \(element(for: max))"
+        } else {
+            return "valid"
+        }
     }
 
     init(min: Int?, max: Int?) {
