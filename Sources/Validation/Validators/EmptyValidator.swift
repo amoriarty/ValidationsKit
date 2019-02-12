@@ -18,7 +18,7 @@ extension Validator where T: Collection {
 }
 
 /// Validates wheter the collection is empty.
-fileprivate struct EmptyValidator<T>: ValidatorType where T: Collection {
+fileprivate struct EmptyValidator<T: Collection>: ValidatorType {
 
     /// See `ValidatorType`
     var readable = "empty"

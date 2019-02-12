@@ -7,6 +7,7 @@ struct TestModel: Validatable {
     var picture: String?
     var ascii: String
     var alphanumeric: String
+    var password: String
 
     static func validations() throws -> Validations<TestModel> {
         var validations = Validations(TestModel.self)
@@ -15,6 +16,7 @@ struct TestModel: Validatable {
         validations.add(\.picture, at: ["picture"], .nil || .url)
         validations.add(\.ascii, at: ["ascii"], .ascii)
         validations.add(\.alphanumeric, at: ["alphanumeric"], .alphanumeric)
+        validations.add(\.password, at: ["password"], .alphanumeric && .count(8...12))
         return validations
     }
 
@@ -27,7 +29,8 @@ final class ValidationTests: XCTestCase {
                         phone: "+33642424242",
                         picture: nil,
                         ascii: "someasciitext",
-                        alphanumeric: "S0m3alphanum3rictext")
+                        alphanumeric: "S0m3alphanum3rictext",
+                        password: "somesuperpw")
 
         do { try user.validate() }
         catch { XCTFail("valid mail return an error.") }
@@ -87,7 +90,23 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
-        
+
+        user.alphanumeric = "S0m3alphanum3rictext"
+        user.password = "short"
+        do { try  user.validate() }
+        catch let error as ValidationError {
+            XCTAssertEqual("\(error)", "'password' is less than required minimum of 8 characters")
+        } catch {
+            XCTFail("A non validation error as been thrown")
+        }
+
+        user.password = "awaytolongpassword"
+        do { try  user.validate() }
+        catch let error as ValidationError {
+            XCTAssertEqual("\(error)", "'password' is greater than required maximum of 12 characters")
+        } catch {
+            XCTFail("A non validation error as been thrown")
+        }
     }
 
     static var allTests = [
