@@ -6,8 +6,7 @@ struct User: Validatable {
 
     static func validations() throws -> Validations<User> {
         var validations = Validations(User.self)
-        validations.add(\.mail, at: ["mail"], !.empty)
-        validations.add(\.mail, at: ["mail"], .mail)
+        validations.add(\.mail, at: ["mail"], !.empty && .mail)
         return validations
     }
 
