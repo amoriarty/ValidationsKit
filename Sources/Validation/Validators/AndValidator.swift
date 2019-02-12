@@ -25,7 +25,7 @@ fileprivate struct AndValidator<T>: ValidatorType {
 
     /// See `ValidatorType`.
     var readable: String {
-        return ""
+        return "\(lhs.readable) and \(rhs.readable)"
     }
 
     /// Create a new `AndValidator`.

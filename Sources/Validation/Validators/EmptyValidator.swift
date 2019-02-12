@@ -21,10 +21,8 @@ extension Validator where T: Collection {
 fileprivate struct EmptyValidator<T>: ValidatorType where T: Collection {
 
     /// See `ValidatorType`
-    var readable: String {
-        return "empty"
-    }
-
+    var readable = "empty"
+    
     /// See `ValidatorType`
     func validate(_ collection: T) throws {
         guard !collection.isEmpty else { return }
