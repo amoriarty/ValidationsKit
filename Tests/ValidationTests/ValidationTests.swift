@@ -22,7 +22,10 @@ final class ValidationTests: XCTestCase {
 
         user.mail = "invalid_mail"
         do { try user.validate() }
-        catch { XCTAssertNotNil(error as? ValidationError, "invalid mail should throw a ValidationError") }
+        catch {
+            XCTAssertNotNil(error as? ValidationError, "invalid mail should throw a ValidationError")
+            XCTAssertEqual("\(error)", "'mail' is not a valid email address")
+        }
     }
 
     static var allTests = [

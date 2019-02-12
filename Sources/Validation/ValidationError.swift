@@ -34,9 +34,11 @@ public struct BasicValidationError: ValidationError, CustomStringConvertible {
     }
 
     /// Create a new `BasicValidationError`
-    public init(_ message: String) {
+    /// - parameter message: Error message to display.
+    /// - parameter path: KeyPath of the invalid properties.
+    public init(_ message: String, _ path: [String] = []) {
         self.message = message
-        path = []
+        self.path = path
     }
     
 }
