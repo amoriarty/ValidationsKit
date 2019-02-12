@@ -3,10 +3,12 @@ import XCTest
 
 struct User: Validatable {
     var mail: String
+    var picture: String?
 
     static func validations() throws -> Validations<User> {
         var validations = Validations(User.self)
         validations.add(\.mail, at: ["mail"], !.empty && .mail)
+        validations.add(\.picture, at: ["picture"], .nil || !.empty)
         return validations
     }
 
@@ -15,7 +17,7 @@ struct User: Validatable {
 final class ValidationTests: XCTestCase {
 
     func testValidate() {
-        var user = User(mail: "valid@example.com")
+        var user = User(mail: "valid@example.com", picture: nil)
 
         do { try user.validate() }
         catch { XCTFail("valid mail return an error.") }
