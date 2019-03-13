@@ -3,7 +3,6 @@
 //  ValidationKitDemo
 //
 //  Created by Alex Legent on 13/03/2019.
-//  Copyright © 2019 Alex Legent. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +14,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = ViewController()
+        window?.rootViewController = UINavigationController(rootViewController: RegistrationController())
         return true
     }
 

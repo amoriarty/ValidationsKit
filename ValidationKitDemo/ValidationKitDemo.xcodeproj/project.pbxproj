@@ -9,9 +9,14 @@
 /* Begin PBXBuildFile section */
 		EBE06BE68B6A2E7E1BF0EB08 /* Pods_ValidationKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B89E99A5A2C12B0B4F3D2F7 /* Pods_ValidationKitDemo.framework */; };
 		EC3FEDF32239650C00804D15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEDF22239650C00804D15 /* AppDelegate.swift */; };
-		EC3FEDF52239650C00804D15 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEDF42239650C00804D15 /* ViewController.swift */; };
+		EC3FEDF52239650C00804D15 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEDF42239650C00804D15 /* RegistrationController.swift */; };
 		EC3FEDFA2239650D00804D15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC3FEDF92239650D00804D15 /* Assets.xcassets */; };
 		EC3FEDFD2239650D00804D15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC3FEDFB2239650D00804D15 /* LaunchScreen.storyboard */; };
+		EC3FEE07223968AB00804D15 /* RegistrationUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEE06223968AB00804D15 /* RegistrationUser.swift */; };
+		EC3FEE0922396CF900804D15 /* RegistrationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEE0822396CF900804D15 /* RegistrationField.swift */; };
+		EC3FEE0B22396D7500804D15 /* RegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEE0A22396D7400804D15 /* RegistrationCell.swift */; };
+		EC3FEE0D2239702500804D15 /* RegistrationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEE0C2239702500804D15 /* RegistrationButton.swift */; };
+		EC3FEE0F2239754600804D15 /* SuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3FEE0E2239754600804D15 /* SuccessController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,10 +24,15 @@
 		3A02C15EC94C16893026613E /* Pods-ValidationKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ValidationKitDemo.debug.xcconfig"; path = "Target Support Files/Pods-ValidationKitDemo/Pods-ValidationKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		EC3FEDEF2239650C00804D15 /* ValidationKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ValidationKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3FEDF22239650C00804D15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EC3FEDF42239650C00804D15 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EC3FEDF42239650C00804D15 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		EC3FEDF92239650D00804D15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC3FEDFC2239650D00804D15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC3FEDFE2239650D00804D15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC3FEE06223968AB00804D15 /* RegistrationUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUser.swift; sourceTree = "<group>"; };
+		EC3FEE0822396CF900804D15 /* RegistrationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationField.swift; sourceTree = "<group>"; };
+		EC3FEE0A22396D7400804D15 /* RegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCell.swift; sourceTree = "<group>"; };
+		EC3FEE0C2239702500804D15 /* RegistrationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationButton.swift; sourceTree = "<group>"; };
+		EC3FEE0E2239754600804D15 /* SuccessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessController.swift; sourceTree = "<group>"; };
 		EFD59130C71D3339691B2F8E /* Pods-ValidationKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ValidationKitDemo.release.xcconfig"; path = "Target Support Files/Pods-ValidationKitDemo/Pods-ValidationKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,7 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				EC3FEDF22239650C00804D15 /* AppDelegate.swift */,
-				EC3FEDF42239650C00804D15 /* ViewController.swift */,
+				EC3FEDF42239650C00804D15 /* RegistrationController.swift */,
+				EC3FEE06223968AB00804D15 /* RegistrationUser.swift */,
+				EC3FEE0822396CF900804D15 /* RegistrationField.swift */,
+				EC3FEE0A22396D7400804D15 /* RegistrationCell.swift */,
+				EC3FEE0C2239702500804D15 /* RegistrationButton.swift */,
+				EC3FEE0E2239754600804D15 /* SuccessController.swift */,
 				EC3FEDF92239650D00804D15 /* Assets.xcassets */,
 				EC3FEDFB2239650D00804D15 /* LaunchScreen.storyboard */,
 				EC3FEDFE2239650D00804D15 /* Info.plist */,
@@ -115,7 +130,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = "Alex Legent";
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					EC3FEDEE2239650C00804D15 = {
 						CreatedOnToolsVersion = 10.1;
@@ -204,8 +219,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC3FEDF52239650C00804D15 /* ViewController.swift in Sources */,
+				EC3FEE07223968AB00804D15 /* RegistrationUser.swift in Sources */,
+				EC3FEDF52239650C00804D15 /* RegistrationController.swift in Sources */,
+				EC3FEE0922396CF900804D15 /* RegistrationField.swift in Sources */,
 				EC3FEDF32239650C00804D15 /* AppDelegate.swift in Sources */,
+				EC3FEE0D2239702500804D15 /* RegistrationButton.swift in Sources */,
+				EC3FEE0F2239754600804D15 /* SuccessController.swift in Sources */,
+				EC3FEE0B22396D7500804D15 /* RegistrationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
