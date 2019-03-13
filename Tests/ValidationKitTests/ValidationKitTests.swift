@@ -1,7 +1,7 @@
 import XCTest
-@testable import Validation
+@testable import ValidationKit
 
-struct TestModel: Validatable {
+struct UserModel: Validatable {
     var mail: String
     var phone: String
     var picture: String?
@@ -10,8 +10,8 @@ struct TestModel: Validatable {
     var password: String
     var delivery: String
 
-    static func validations() throws -> Validations<TestModel> {
-        var validations = Validations(TestModel.self)
+    static func validations() throws -> Validations<UserModel> {
+        var validations = Validations(UserModel.self)
         validations.add(\.mail, at: ["mail"], !.empty && .mail)
         validations.add(\.phone, at: ["phone"], .phone)
         validations.add(\.picture, at: ["picture"], .nil || .url)
@@ -25,19 +25,24 @@ struct TestModel: Validatable {
 }
 
 final class ValidationTests: XCTestCase {
+    private var user: UserModel!
+
+    override func setUp() {
+        user = UserModel(mail: "valid@example.com",
+                  phone: "+33642424242",
+                  picture: nil,
+                  ascii: "someasciitext",
+                  alphanumeric: "S0m3alphanum3rictext",
+                  password: "somesuperpw",
+                  delivery: "long")
+    }
 
     func testValidate() {
-        var user = TestModel(mail: "valid@example.com",
-                        phone: "+33642424242",
-                        picture: nil,
-                        ascii: "someasciitext",
-                        alphanumeric: "S0m3alphanum3rictext",
-                        password: "somesuperpw",
-                        delivery: "long")
-
         do { try user.validate() }
         catch { XCTFail("valid mail return an error.") }
+    }
 
+    func testValidateMail() {
         user.mail = "invalid_mail"
         do { try user.validate() }
         catch let error as ValidationError {
@@ -53,8 +58,9 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
-        user.mail = "valid@example.com"
+    func testValidatePhone() {
         user.phone = "0989"
         do { try user.validate() }
         catch let error as ValidationError {
@@ -62,8 +68,9 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
-        user.phone = "+33642424242"
+    func testValidateUrl() {
         user.picture = "https://example.com"
         do { try user.validate() }
         catch { XCTFail("valid url return an error.") }
@@ -75,17 +82,19 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
+    func testValidateAscii() {
         user.ascii = "😅"
-        user.picture = "https://example.com"
         do { try user.validate() }
         catch let error as ValidationError {
             XCTAssertEqual("\(error)", "'ascii' contains an invalid character: '😅'")
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
-        user.ascii = "valid"
+    func testValidateAlphanumrical() {
         user.alphanumeric = "😅"
         do { try user.validate() }
         catch let error as ValidationError {
@@ -93,8 +102,9 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
-        user.alphanumeric = "S0m3alphanum3rictext"
+    func testValidateRange() {
         user.password = "short"
         do { try  user.validate() }
         catch let error as ValidationError {
@@ -110,8 +120,9 @@ final class ValidationTests: XCTestCase {
         } catch {
             XCTFail("A non validation error as been thrown")
         }
+    }
 
-        user.password = "somesuperpw"
+    func testValidateIn() {
         user.delivery = "not in"
         do { try user.validate() }
         catch let error as ValidationError {
@@ -123,5 +134,12 @@ final class ValidationTests: XCTestCase {
 
     static var allTests = [
         ("testValidate", testValidate),
+        ("testValidateMail", testValidateMail),
+        ("testValidatePhone", testValidatePhone),
+        ("testValidateUrl", testValidateUrl),
+        ("testValidateAscii", testValidateAscii),
+        ("testValidateAlphanumrical", testValidateAlphanumrical),
+        ("testValidateRange", testValidateRange),
+        ("testValidateIn", testValidateIn)
     ]
 }

@@ -1,6 +1,6 @@
 //
 //  CharacterSetValidator.swift
-//  Validation
+//  ValidationKit
 //
 //  Created by Alex Legent on 12/02/2019.
 //

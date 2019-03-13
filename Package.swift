@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Validation",
+    name: "ValidationKit",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "Validation",
-            targets: ["Validation"]),
+            name: "ValidationKit",
+            targets: ["ValidationKit"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -19,10 +19,10 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "Validation",
+            name: "ValidationKit",
             dependencies: []),
         .testTarget(
-            name: "ValidationTests",
-            dependencies: ["Validation"]),
+            name: "ValidationKitTests",
+            dependencies: ["ValidationKit"]),
     ]
 )

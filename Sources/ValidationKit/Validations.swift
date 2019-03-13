@@ -1,6 +1,6 @@
 //
 //  Validations.swift
-//  Validation
+//  ValidationKit
 //
 //  Created by Alex Legent on 11/02/2019.
 //
