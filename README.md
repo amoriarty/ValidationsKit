@@ -85,6 +85,12 @@ Add the GitHub link in you `Package.swift` as a dependencies:
 .package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.0.0"),
 ```
 
+Add the dependency to your target:
+
+```swift
+.target(name: "your_target_name", dependencies: ["ValidationsKit"]),
+```
+
 Then update you project with:
 
 ```sh
