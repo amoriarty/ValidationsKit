@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-s.name             = 'ValidationKit'
+s.name             = 'ValidationsKit'
 s.version          = '1.0.0'
 s.summary          = 'Model validation for iOS, inspired by Vapor.'
 
@@ -18,22 +18,22 @@ s.summary          = 'Model validation for iOS, inspired by Vapor.'
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
 s.description      = <<-DESC
-ValidationKit is a package inspired by Vapor Validation, in order to bring model validation with simple and clean syntax on iOS. If you do server side swift with Vapor, you should already be very familiar with this package.
+ValidationsKit is a package inspired by Vapor Validation, in order to bring model validation with simple and clean syntax on iOS. If you do server side swift with Vapor, you should already be very familiar with this package.
 DESC
 
-s.homepage         = 'https://github.com/amoriarty/ValidationKit'
+s.homepage         = 'https://github.com/amoriarty/ValidationsKit'
 # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
 s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
 s.author           = { 'amoriarty' => 'alexandrelegent@gmail.com' }
-s.source           = { :git => 'https://github.com/amoriarty/ValidationKit.git', :tag => s.version.to_s }
+s.source           = { :git => 'https://github.com/amoriarty/ValidationsKit.git', :tag => s.version.to_s }
 s.social_media_url = 'https://twitter.com/alex_legent'
 
 s.swift_version = '4.2'
 s.ios.deployment_target = '11.0'
-s.source_files = 'Sources/ValidationKit/**/*'
+s.source_files = 'Sources/ValidationsKit/**/*'
 
 # s.resource_bundles = {
-#   'ValidationKit' => ['ValidationKit/Assets/*.png']
+#   'ValidationsKit' => ['ValidationKit/Assets/*.png']
 # }
 
 # s.public_header_files = 'Pod/Classes/**/*.h'

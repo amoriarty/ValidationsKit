@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ValidationKit
+import ValidationsKit
 
 struct RegistrationUser {
     let username: String

@@ -31,7 +31,7 @@ public struct Validations<Model> where Model: Validatable {
     /// - parameter path: Readable path. Will be displayed when showing errors.
     /// - parameter readable: Readable message. Will be displayed when showing errors.
     /// - parameter custom: Validation closure.
-    public mutating func add<T>(_ keyPath: KeyPath<Model, T>, at path: [String], _ readable: String, _ custom: @escaping (T) throws -> Void) {
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>, at path: [String], _ readable: String = "", _ custom: @escaping (T) throws -> Void) {
         let validator = Validator<Model>(readable) { model in
             do { try custom(model[keyPath: keyPath]) }
             catch {

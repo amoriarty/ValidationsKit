@@ -199,13 +199,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ValidationKitDemo/Pods-ValidationKitDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ValidationKit/ValidationKit.framework",
+				"${BUILT_PRODUCTS_DIR}/ValidationsKit/ValidationsKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ValidationKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ValidationsKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

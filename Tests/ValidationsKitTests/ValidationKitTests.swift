@@ -1,5 +1,5 @@
 import XCTest
-@testable import ValidationKit
+@testable import ValidationsKit
 
 struct UserModel: Validatable {
     var mail: String
@@ -9,6 +9,8 @@ struct UserModel: Validatable {
     var alphanumeric: String
     var password: String
     var delivery: String
+    var github: String
+    var twitter: String?
 
     static func validations() throws -> Validations<UserModel> {
         var validations = Validations(UserModel.self)
@@ -19,6 +21,16 @@ struct UserModel: Validatable {
         validations.add(\.alphanumeric, at: ["alphanumeric"], .alphanumeric)
         validations.add(\.password, at: ["password"], .alphanumeric && .count(8...12))
         validations.add(\.delivery, at: ["delivery"], .in("short", "long"))
+        validations.add(\.github, at: ["github"]) { link in
+            guard !link.contains("https://github.com") else { return }
+            throw BasicValidationError("isn't a valid GitHub link")
+        }
+        validations.add(\.twitter, at: ["twitter"]) { twitter in
+            guard let twitter = twitter else { return }
+            guard twitter.first != "@" else { return }
+            throw BasicValidationError("isn't a valid Twitter username")
+        }
+
         return validations
     }
 
@@ -34,7 +46,9 @@ final class ValidationTests: XCTestCase {
                   ascii: "someasciitext",
                   alphanumeric: "S0m3alphanum3rictext",
                   password: "somesuperpw",
-                  delivery: "long")
+                  delivery: "long",
+                  github: "https://github.com/amoriarty",
+                  twitter: "@twitter")
     }
 
     func testValidate() {
@@ -132,6 +146,16 @@ final class ValidationTests: XCTestCase {
         }
     }
 
+    func testCustomValidation() {
+        user.github = "https://example.or"
+        do { try user.validate() }
+        catch let error as ValidationError {
+            XCTAssertEqual("\(error)", "'github' isn't a valid GitHub link")
+        } catch {
+            XCTFail("A non validation error as been thrown")
+        }
+    }
+
     static var allTests = [
         ("testValidate", testValidate),
         ("testValidateMail", testValidateMail),
@@ -140,6 +164,7 @@ final class ValidationTests: XCTestCase {
         ("testValidateAscii", testValidateAscii),
         ("testValidateAlphanumrical", testValidateAlphanumrical),
         ("testValidateRange", testValidateRange),
-        ("testValidateIn", testValidateIn)
+        ("testValidateIn", testValidateIn),
+        ("testCustomValidation", testCustomValidation)
     ]
 }
