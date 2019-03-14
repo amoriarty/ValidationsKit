@@ -74,7 +74,7 @@ You also can take a look to a demo application in the `ValidationsKitDemo` direc
 Simply add this line in you pods dependencies:
 
 ```ruby
-	pod 'ValidationsKit', '~> 1.0'
+pod 'ValidationsKit', '~> 1.0'
 ```
 
 ### Swift Package Manager
@@ -82,7 +82,7 @@ Simply add this line in you pods dependencies:
 Add the GitHub link in you `Package.swift` as a dependencies:
 
 ```swift
-    .package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.0.0"),
+.package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.0.0"),
 ```
 
 Then update you project with:
