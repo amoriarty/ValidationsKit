@@ -11,11 +11,11 @@ import Foundation
 public struct Validations<Model> where Model: Validatable {
 
     /// Internal `Validator`s storage.
-    private var storage: [Validator<Model>]
+    private var storage: [PartialKeyPath<Model>: Validator<Model>]
 
     /// Create an empty `Validations` struct.
     public init(_ model: Model.Type) {
-        storage = []
+        storage = [:]
     }
 
     /// Adds a new `Validation` at the supplied key path.
@@ -41,14 +41,26 @@ public struct Validations<Model> where Model: Validatable {
             }
         }
 
-        storage.append(validator)
+        storage[keyPath] = validator
     }
 
     /// Runs the `Validation`s on an instance of `Model`.
+    /// - parameter model: Model on which validation must be done.
     func run(on model: Model) throws {
-        for validation in storage {
+        for (_, validation) in storage {
             try validation.validate(model)
         }
+    }
+
+    /// Run a validation on a single field specified at `keyPath`.
+    /// - parameter model: Model on which validation must be done.
+    /// - parameter keyPath: `KeyPath` of the model to be validate.
+    func run(on model: Model, at keyPath: PartialKeyPath<Model>) throws {
+        guard let validation = storage[keyPath] else {
+            throw UndefinedValidationError()
+        }
+
+        try validation.validate(model)
     }
 
 }
