@@ -19,7 +19,8 @@ final class ValidatorsTests: XCTestCase {
         ("testASCIIValidator", testASCIIValidator),
         ("testAlphanumericValidator", testAlphanumericValidator),
         ("testEmptyValidator", testEmptyValidator),
-        ("testInValidator", testInValidator)
+        ("testInValidator", testInValidator),
+        ("testRangeValidator", testRangeValidator)
     ]
 
     func testMailValidator() {
@@ -98,6 +99,26 @@ final class ValidatorsTests: XCTestCase {
         XCTAssertNoThrow(try Validator<String>.in("short", "long").validate("long"))
         XCTAssertThrowsError(try Validator<String>.in("short", "long").validate("not in")) { error in
             XCTAssertEqual("\(error)", "data isn't in short, long")
+        }
+    }
+
+    func testRangeValidator() {
+        XCTAssertNoThrow(try Validator<Int>.range(-5...5).validate(4))
+        XCTAssertNoThrow(try Validator<Int>.range(-5...5).validate(5))
+        XCTAssertNoThrow(try Validator<Int>.range(-5...5).validate(-5))
+        XCTAssertNoThrow(try Validator<Int>.range(5...).validate(.max))
+        XCTAssertNoThrow(try Validator<Int>.range(-5..<6).validate(-5))
+        XCTAssertNoThrow(try Validator<Int>.range(-5..<6).validate(-4))
+        XCTAssertNoThrow(try Validator<Int>.range(-5..<6).validate(5))
+
+        XCTAssertThrowsError(try Validator<Int>.range(-5..<6).validate(-6))
+        XCTAssertThrowsError(try Validator<Int>.range(-5..<6).validate(6))
+
+        XCTAssertThrowsError(try Validator<Int>.range(-5...5).validate(6)) { error in
+            XCTAssertEqual("\(error)", "data is greater than 5")
+        }
+        XCTAssertThrowsError(try Validator<Int>.range(-5...5).validate(-6)) { error in
+            XCTAssertEqual("\(error)", "data is less than -5")
         }
     }
 

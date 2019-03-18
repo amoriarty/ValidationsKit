@@ -23,7 +23,7 @@ extension Validator where T == String {
 fileprivate struct URLValidator: ValidatorType {
 
     /// See `ValidatorType`.
-    var readable = "url"
+    let readable = "url"
 
     /// See `ValidatorType`.
     func validate(_ url: String) throws {

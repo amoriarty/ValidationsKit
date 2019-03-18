@@ -20,7 +20,7 @@ extension Validator where T == String {
 fileprivate struct MailValidator: ValidatorType {
 
     /// See `ValidatorType`.
-    public let readable = "mail address"
+    let readable = "mail address"
 
     func validate(_ mail: String) throws {
         guard let range = mail.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: [.regularExpression, .caseInsensitive]),

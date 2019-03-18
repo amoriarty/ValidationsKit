@@ -35,7 +35,6 @@ extension Validator where T: Collection {
 /// Validates that number of items in collection is in range.
 fileprivate struct CountValidator<T: Collection>: ValidatorType {
 
-
     /// Minimum inclusive possible value, not checked if nil.
     private let min: Int?
 
@@ -74,6 +73,8 @@ fileprivate struct CountValidator<T: Collection>: ValidatorType {
         }
     }
 
+    /// Get the correct `String` to print if a validation error is thrown.
+    /// - parameter count: Count of element, allowing to defined if an 's' should be placed at the end.
     private func element(for count: Int) -> String {
         let type = T.Element.self is Character.Type ? "character" : "item"
         return "\(count) \(type)\(count == 1 ? "" : "s")"

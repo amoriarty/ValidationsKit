@@ -22,7 +22,7 @@ fileprivate struct NilValidator<T>: ValidatorType {
     typealias ValidationData = T?
 
     /// See `ValidatorType`
-    var readable = "nil"
+    let readable = "nil"
 
     /// Creates a new `NilValidator`.
     /// - parameter type: Type of `ValidationData`.

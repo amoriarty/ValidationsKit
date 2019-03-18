@@ -19,7 +19,7 @@ extension Validator where T == String {
 fileprivate struct PhoneValidator: ValidatorType {
 
     /// See `ValidatorType`.
-    var readable = "phone"
+    let readable = "phone"
 
     /// See `ValidatorType`.
     func validate(_ phone: String) throws {
