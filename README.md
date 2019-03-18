@@ -66,6 +66,12 @@ catch {
 }
 ```
 
+Or you can validate a single field, specified at `keyPath`:
+
+```swift
+try valid.validate(at: \User.mail)
+```
+
 You also can take a look to a demo application in the `ValidationsKitDemo` directory, using Cocoapods.
 
 ## Installation
@@ -74,7 +80,7 @@ You also can take a look to a demo application in the `ValidationsKitDemo` direc
 Simply add this line in you pods dependencies:
 
 ```ruby
-pod 'ValidationsKit', '~> 1.0'
+pod 'ValidationsKit', '~> 1.1'
 ```
 
 ### Swift Package Manager
@@ -82,7 +88,7 @@ pod 'ValidationsKit', '~> 1.0'
 Add the GitHub link in you `Package.swift` as a dependencies:
 
 ```swift
-.package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.0.0"),
+.package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.1.0"),
 ```
 
 Add the dependency to your target:
