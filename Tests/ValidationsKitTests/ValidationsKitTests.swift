@@ -66,8 +66,13 @@ final class ValidationsKitTests: XCTestCase {
     func testSingleFieldValidate() {
         user.phone = ""
         XCTAssertNoThrow(try user.validate(at: \UserModel.mail))
-        XCTAssertThrowsError(try user.validate(at: \UserModel.phone))
-        XCTAssertThrowsError(try user.validate(at: \UserModel.noValidator))
+        XCTAssertThrowsError(try user.validate(at: \UserModel.phone)) { error in
+            XCTAssertEqual("\(error)", "'phone' isn't a valid phone number")
+        }
+
+        XCTAssertThrowsError(try user.validate(at: \UserModel.noValidator)) { error in
+            XCTAssertNotNil(error as? UndefinedValidationError)
+        }
     }
 
     func testCustomValidation() {
