@@ -22,26 +22,36 @@ public struct Validations<Model> where Model: Validatable {
     /// - parameter keyPath: `KeyPath` to validatable property.
     /// - parameter path: Readable path. Will be displayed when showing errors.
     /// - parameter validator: `Validator` to run on this property.
-    public mutating func add<T>(_ keyPath: KeyPath<Model, T>, at path: [String], _ validator: Validator<T>) {
-        add(keyPath, at: path, validator.readable, validator.validate)
+    /// - parameter message: Error message provided by the user and throw in case of validation error.
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
+                                at path: [String],
+                                _ validator: Validator<T>,
+                                message: ((T) -> String)? = nil) {
+        add(keyPath, at: path, validator.readable, validator: validator.validate, message: message)
     }
 
     /// Adds a custom validation at the supplied key path and readable.
     /// - parameter keyPath: `KeyPath` to validatable property.
     /// - parameter path: Readable path. Will be displayed when showing errors.
     /// - parameter readable: Readable message. Will be displayed when showing errors.
-    /// - parameter custom: Validation closure.
-    public mutating func add<T>(_ keyPath: KeyPath<Model, T>, at path: [String], _ readable: String = "", _ custom: @escaping (T) throws -> Void) {
-        let validator = Validator<Model>(readable) { model in
-            do { try custom(model[keyPath: keyPath]) }
+    /// - parameter validator: Validation closure.
+    /// - parameter message: Error message provided by the user and throw in case of validation error.
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
+                                at path: [String],
+                                _ readable: String = "",
+                                validator: @escaping (T) throws -> Void,
+                                message: ((T) -> String)? = nil) {
+        storage[keyPath] = Validator<Model>(
+            readable,
+            message: message != nil ? { model in message!(model[keyPath: keyPath]) } : nil
+        ) { model in
+            do { try validator(model[keyPath: keyPath]) }
             catch {
                 guard var err = error as? ValidationError else { throw error }
                 err.path = path
                 throw err
             }
         }
-
-        storage[keyPath] = validator
     }
 
     /// Runs the `Validation`s on an instance of `Model`.

@@ -11,6 +11,7 @@ struct UserModel: Validatable {
     var delivery: String
     var github: String
     var twitter: String?
+    var customMessage: String
     var noValidator: String?
 
     static func validations() throws -> Validations<UserModel> {
@@ -22,14 +23,18 @@ struct UserModel: Validatable {
         validations.add(\.alphanumeric, at: ["alphanumeric"], .alphanumeric)
         validations.add(\.password, at: ["password"], .alphanumeric && .count(8...12))
         validations.add(\.delivery, at: ["delivery"], .in("short", "long"))
-        validations.add(\.github, at: ["github"]) { link in
+        validations.add(\.github, at: ["github"], validator: { link in
             guard !link.contains("https://github.com") else { return }
             throw BasicValidationError("isn't a valid GitHub link")
-        }
-        validations.add(\.twitter, at: ["twitter"]) { twitter in
+        })
+        validations.add(\.twitter, at: ["twitter"], validator: { twitter in
             guard let twitter = twitter else { return }
             guard twitter.first != "@" else { return }
             throw BasicValidationError("isn't a valid Twitter username")
+        })
+
+        validations.add(\.customMessage, at: ["customMessage"], !.empty) { customMessage in
+            return "this custom error message should appear instead of the auto generated one"
         }
 
         return validations
@@ -47,16 +52,19 @@ final class ValidationsKitTests: XCTestCase {
     ]
 
     override func setUp() {
-        user = UserModel(mail: "valid@example.com",
-                  phone: "+33642424242",
-                  picture: nil,
-                  ascii: "someasciitext",
-                  alphanumeric: "S0m3alphanum3rictext",
-                  password: "somesuperpw",
-                  delivery: "long",
-                  github: "https://github.com/amoriarty",
-                  twitter: "@twitter",
-                  noValidator: nil)
+        user = UserModel(
+            mail: "valid@example.com",
+            phone: "+33642424242",
+            picture: nil,
+            ascii: "someasciitext",
+            alphanumeric: "S0m3alphanum3rictext",
+            password: "somesuperpw",
+            delivery: "long",
+            github: "https://github.com/amoriarty",
+            twitter: "@twitter",
+            customMessage: "some placeholder",
+            noValidator: nil
+        )
     }
 
     func testValidate() {
@@ -82,5 +90,12 @@ final class ValidationsKitTests: XCTestCase {
         }
     }
 
+    func testCustomErrorMessage() {
+        user.customMessage = ""
+        XCTAssertThrowsError(try user.validate(at: \UserModel.customMessage)) { error in
+            XCTAssertNotNil(error as? CustomValidationError)
+            XCTAssertEqual("\(error)", "this custom error message should appear instead of the auto generated one")
+        }
+    }
 
 }

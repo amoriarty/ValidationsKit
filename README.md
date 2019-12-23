@@ -39,11 +39,12 @@ extension User: Validatable {
         validations.add(\.website, ["website"], .nil || .url)
 
         // 'twitter' should be nil or began by '@'.
-        validations.add(\.twitter, at: ["twitter"]) { twitter in
+        validations.add(\.twitter, at: ["twitter"], validator: { twitter in
         	guard let twitter = twitter else { return }
             guard twitter.first != "@" else { return }
             throw BasicValidationError("isn't a valid Twitter username")
-        }
+        })
+        
         return validations
     }
 
@@ -72,7 +73,32 @@ Or you can validate a single field, specified at `keyPath`:
 try valid.validate(at: \User.mail)
 ```
 
-You also can take a look to a demo application in the `ValidationsKitDemo` directory, using Cocoapods.
+Finally, you can now define your own message to be thrown in a case of validations failure, which can be handy to pass some localised string or just display some custom message to end user:
+
+```swift
+struct User: Validatable {
+    let age: Int
+    
+    static func validations() throws -> Validations<User> {
+        var validations = Validations(User.self)
+        
+        validations.add(\.age, at: ["age"], .range(..< 12) { age in
+            "You have to be at most 12 for doing this, \(age) is too old for that stuff..."
+        }
+        
+        return validations
+    }
+
+}
+
+do {
+    try User(age: 42)
+} catch {
+    print("\(error)") // "You have to be at most 12 for doing this, 42 is too old for that stuff..."
+}
+```
+
+You can also take a look to a demo application in the `ValidationsKitDemo` directory, using Cocoapods.
 
 ## Installation
 ### Cocoapods
@@ -105,7 +131,7 @@ $ swift package update
 
 ## Difference from Vapor package
 
-The main difference from Vapor package is that it doesn't include the `Reflectable` system, that allow you to make your model conform both to `Decodable` and `Reflectable` to avoid typing the key path to show in case of errors, which can lead to errors is variable are rename in the future.
+The main difference from Vapor package is that it doesn't include the `Reflectable` system, that allow you to make your model conform both to `Decodable` and `Reflectable` to avoid typing the key path to show in case of errors, which can lead to errors if variable are rename in the future.
 
 ## Thanks
 

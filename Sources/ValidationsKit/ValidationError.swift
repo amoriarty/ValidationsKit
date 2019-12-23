@@ -52,3 +52,22 @@ public struct UndefinedValidationError: Error, CustomStringConvertible {
     }
 
 }
+
+/// Error thrown when some validation failed but user defined it's own error message
+public struct CustomValidationError: Error, CustomStringConvertible {
+
+    /// Message provided by the user
+    let message: String
+
+    /// Readable description of `CustomValidationError`
+    public var description: String {
+        return message
+    }
+
+    /// Create a new `CustomValidationError`
+    /// - parameter message: Error message provided by the user.
+    public init(_ message: String) {
+        self.message = message
+    }
+
+}
