@@ -62,15 +62,24 @@ public struct Validations<Model> where Model: Validatable {
         }
     }
 
-    /// Run a validation on a single field specified at `keyPath`.
+    /// Run a validation on defined fields specified at `keyPaths`.
     /// - parameter model: Model on which validation must be done.
-    /// - parameter keyPath: `KeyPath` of the model to be validate.
-    func run(on model: Model, at keyPath: PartialKeyPath<Model>) throws {
-        guard let validation = storage[keyPath] else {
-            throw UndefinedValidationError()
-        }
+    /// - parameter keyPaths: `KeyPath`s of the model to be validate.
+    func run(on model: Model, at keyPaths: PartialKeyPath<Model>...) throws {
+        try run(on: model, at: keyPaths)
+    }
 
-        try validation.validate(model)
+    /// Run a validation on defined fields specified at `keyPaths`.
+    /// - parameter model: Model on which validation must be done.
+    /// - parameter keyPaths: `KeyPath`s of the model to be validate.
+    func run(on model: Model, at keyPaths: [PartialKeyPath<Model>]) throws {
+        try keyPaths.forEach { keyPath in
+            guard let validation = storage[keyPath] else {
+                throw UndefinedValidationError()
+            }
+
+            try validation.validate(model)
+        }
     }
 
 }

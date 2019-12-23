@@ -83,6 +83,14 @@ final class ValidationsKitTests: XCTestCase {
         }
     }
 
+    func testMultipleFieldsValidate() {
+        user.phone = ""
+        XCTAssertNoThrow(try user.validate(at: \UserModel.mail, \UserModel.twitter))
+        XCTAssertThrowsError(try user.validate(at: \UserModel.mail, \UserModel.phone)) { error in
+            XCTAssertEqual("\(error)", "'phone' isn't a valid phone number")
+        }
+    }
+
     func testCustomValidation() {
         user.github = "https://example.or"
         XCTAssertThrowsError(try user.validate()) { error in
