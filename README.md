@@ -39,11 +39,12 @@ extension User: Validatable {
         validations.add(\.website, ["website"], .nil || .url)
 
         // 'twitter' should be nil or began by '@'.
-        validations.add(\.twitter, at: ["twitter"]) { twitter in
+        validations.add(\.twitter, at: ["twitter"], validator: { twitter in
         	guard let twitter = twitter else { return }
             guard twitter.first != "@" else { return }
             throw BasicValidationError("isn't a valid Twitter username")
-        }
+        })
+        
         return validations
     }
 
