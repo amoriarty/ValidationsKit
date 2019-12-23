@@ -30,7 +30,8 @@ fileprivate struct InValidator<T: Equatable>: ValidatorType {
     /// See `ValidatorType`.
     var readable: String {
         let all = array.map { "\($0)" }.joined(separator: ", ")
-        return "in \(all)"
+        let localised = NSLocalizedString("in %@", comment: "'InValidator' readable")
+        return String(format: localised, all)
     }
 
     /// Creates a new `InValidator`.
@@ -41,7 +42,8 @@ fileprivate struct InValidator<T: Equatable>: ValidatorType {
     /// See `ValidatorType`.
     public func validate(_ item: T) throws {
         guard !array.contains(item) else { return }
-        throw BasicValidationError("isn't \(readable)")
+        let localised = NSLocalizedString("isn't %@", comment: "'InValidator' error message")
+        throw BasicValidationError(String(format: localised, readable))
     }
 
 }

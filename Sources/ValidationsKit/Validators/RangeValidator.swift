@@ -39,16 +39,19 @@ extension Validator where T: Comparable & Strideable {
 fileprivate struct RangeValidator<T>: ValidatorType where T: Comparable {
 
     /// See `ValidatorType`.
-    let readable = "range"
+    let readable = NSLocalizedString("range", comment: "'RangeValidator' readable")
 
     /// See `ValidatorType`.
     var validatorReadable: String {
         if let min = self.min, let max = self.max {
-            return "between \(min) and \(max)"
+            let localised = NSLocalizedString("between %@ and %@", comment: "'RangeValidator' readable")
+            return String(format: localised, "\(min)", "\(max)")
         } else if let min = self.min {
-            return "at least \(min)"
+            let localised = NSLocalizedString("at least %@", comment: "'RangeValidator' readable")
+            return String(format: localised, "\(min)")
         } else if let max = self.max {
-            return "at most \(max)"
+            let localised = NSLocalizedString("at most %@", comment: "'RangeValidator' readable")
+            return String(format: localised, "\(max)")
         }
         return "valid"
     }
@@ -69,13 +72,15 @@ fileprivate struct RangeValidator<T>: ValidatorType where T: Comparable {
     func validate(_ data: T) throws {
         if let min = self.min {
             guard data >= min else {
-                throw BasicValidationError("is less than \(min)")
+                let localised = NSLocalizedString("is less than %@", comment: "'RangeValidator' error message")
+                throw BasicValidationError(String(format: localised, "\(min)"))
             }
         }
 
         if let max = self.max {
             guard data <= max else {
-                throw BasicValidationError("is greater than \(max)")
+                let localised = NSLocalizedString("is greater than %@", comment: "'RangeValidator' error message")
+                throw BasicValidationError(String(format: localised, "\(max)"))
             }
         }
     }

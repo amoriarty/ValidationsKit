@@ -22,7 +22,7 @@ fileprivate struct NilValidator<T>: ValidatorType {
     typealias ValidationData = T?
 
     /// See `ValidatorType`
-    let readable = "nil"
+    let readable = NSLocalizedString("nil", comment: "'NilValidator' readable")
 
     /// Creates a new `NilValidator`.
     /// - parameter type: Type of `ValidationData`.
@@ -31,7 +31,9 @@ fileprivate struct NilValidator<T>: ValidatorType {
     /// See `ValidatorType`.
     func validate(_ data: T?) throws {
         guard data != nil else { return }
-        throw BasicValidationError("isn't nil")
+        throw BasicValidationError(
+            NSLocalizedString("isn't nil", comment: "'NilValidator' error message")
+        )
     }
 
 }

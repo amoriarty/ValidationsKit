@@ -44,13 +44,16 @@ fileprivate struct CountValidator<T: Collection>: ValidatorType {
     /// See `ValidatorType`
     var readable: String {
         if let min = min, let max = max {
-            return "between \(min) and \(element(for: max))"
+            let localised = NSLocalizedString("between %@ and %@ %@", comment: "'CountValidator' readable")
+            return String(format: localised, "\(min)", "\(max)", element(for: max))
         } else if let min = min {
-            return "at least \(element(for: min))"
+            let localised = NSLocalizedString("at least %@ %@", comment: "'CountValidator' readable")
+            return String(format: localised, "\(min)", element(for: min))
         } else if let max = max {
-            return "at most \(element(for: max))"
+            let localised = NSLocalizedString("at most %@ %@", comment: "'CountValidator' readable")
+            return String(format: localised, "\(max)", element(for: max))
         } else {
-            return "valid"
+            return NSLocalizedString("valid", comment: "'CountValidator' readable")
         }
     }
 
@@ -65,19 +68,52 @@ fileprivate struct CountValidator<T: Collection>: ValidatorType {
         let max = self.max ?? collection.count
 
         guard collection.count >= min else {
-            throw BasicValidationError("is less than required minimum of \(element(for: min))")
+            let localised = NSLocalizedString(
+                "is less than required minimum of %@ %@",
+                comment: "'CountValidator' error message"
+            )
+
+            throw BasicValidationError(String(format: localised, "\(min)", element(for: min)))
         }
 
         guard collection.count <= max else {
-            throw BasicValidationError("is greater than required maximum of \(element(for: max))")
+            let localised = NSLocalizedString(
+                "is greater than required maximum of %@ %@",
+                comment: "'CountValidator' error message"
+            )
+
+            throw BasicValidationError(String(format: localised, "\(max)", element(for: max)))
         }
     }
 
     /// Get the correct `String` to print if a validation error is thrown.
-    /// - parameter count: Count of element, allowing to defined if an 's' should be placed at the end.
+    /// - parameter count: Count of element, allowing to defined if a type should note as plural.
     private func element(for count: Int) -> String {
-        let type = T.Element.self is Character.Type ? "character" : "item"
-        return "\(count) \(type)\(count == 1 ? "" : "s")"
+        if T.Element.self is Character.Type {
+            let character = NSLocalizedString(
+                "character",
+                comment: "Element display when 'CountValidator' is used on a string"
+            )
+
+            let characters = NSLocalizedString(
+                "characters",
+                comment: "Element display when 'CountValidator' is used on a string, plural"
+            )
+
+            return count == 1 ? character : characters
+        } else {
+            let item = NSLocalizedString(
+                "item",
+                comment: "Element display when 'CountValidator' is used on generic array"
+            )
+
+            let items = NSLocalizedString(
+                "items",
+                comment: "Element display when 'CountValidator' is used on generic array, plural"
+            )
+
+            return count == 1 ? item : items
+        }
     }
 
 }

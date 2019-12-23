@@ -23,12 +23,14 @@ extension Validator where T == String {
 fileprivate struct URLValidator: ValidatorType {
 
     /// See `ValidatorType`.
-    let readable = "url"
+    let readable = NSLocalizedString("url", comment: "'URLValidator' readable")
 
     /// See `ValidatorType`.
     func validate(_ url: String) throws {
         guard let url = URL(string: url), url.isFileURL || (url.host != nil && url.scheme != nil) else {
-            throw BasicValidationError("isn't a valid URL")
+            throw BasicValidationError(
+                NSLocalizedString("isn't a valid URL", comment: "'URLValidator' error message")
+            )
         }
     }
 

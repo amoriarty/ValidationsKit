@@ -48,7 +48,10 @@ public struct UndefinedValidationError: Error, CustomStringConvertible {
 
     /// Readable description of `UndefinedValidationError`
     public var description: String {
-        return "Single field validation failed because no Validator has been defined."
+        NSLocalizedString(
+            "Single field validation failed because no Validator has been defined.",
+            comment: "Error provided when no validation is associated with a field trying to be validated."
+        )
     }
 
 }

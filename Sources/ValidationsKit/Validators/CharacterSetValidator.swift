@@ -40,9 +40,13 @@ fileprivate struct CharacterSetValidator: ValidatorType {
 
     /// See `ValidatorType`.
     public var readable: String {
-        guard set.traits.count > 0 else { return "in character set" }
+        guard set.traits.count > 0 else {
+            return NSLocalizedString("in character set", comment: "'CharacterSetValidator' readable")
+        }
+
         let readable = set.traits.joined(separator: ", ")
-        return "in character set (\(readable))"
+        let localised = NSLocalizedString("in character set (%@)", comment: "'CharacterSetValidator' readable")
+        return String(format: localised, readable)
     }
 
     /// Creates a new `CharacterSetValidator`.
@@ -53,11 +57,20 @@ fileprivate struct CharacterSetValidator: ValidatorType {
     /// See `ValidatorType`
     public func validate(_ s: String) throws {
         guard let range = s.rangeOfCharacter(from: set.inverted) else { return }
-        var reason = "contains an invalid character: '\(s[range])'"
+        let localised = NSLocalizedString(
+            "contains an invalid character: '%@'",
+            comment: "'CharacterSet' error message"
+        )
 
+        var reason = String(format: localised, "\(s[range])")
         guard set.traits.count > 0 else { throw BasicValidationError(reason) }
         let string = set.traits.joined(separator: ", ")
-        reason += " (allowed: \(string))"
+        let allowed = NSLocalizedString(
+            " (allowed: %@)",
+            comment: "'CharacterSet' error message"
+        )
+
+        reason += String(format: allowed, string)
         throw BasicValidationError(reason)
     }
 
@@ -84,11 +97,18 @@ extension CharacterSet {
     /// Returns an array of strings describing the contents of this `CharacterSet`.
     fileprivate var traits: [String] {
         var desc: [String] = []
-        if isSuperset(of: .newlines) { desc.append("newlines") }
-        if isSuperset(of: .whitespaces) { desc.append("whitespace") }
         if isSuperset(of: .capitalizedLetters) { desc.append("A-Z") }
         if isSuperset(of: .lowercaseLetters) { desc.append("a-z") }
         if isSuperset(of: .decimalDigits) { desc.append("0-9") }
+
+        if isSuperset(of: .newlines) {
+            desc.append(NSLocalizedString("newlines", comment: "'newlines' character set description"))
+        }
+
+        if isSuperset(of: .whitespaces) {
+            desc.append(NSLocalizedString("whitespace", comment: "'whitespace' character set description"))
+        }
+
         return desc
     }
 

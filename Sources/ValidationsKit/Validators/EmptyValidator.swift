@@ -21,12 +21,14 @@ extension Validator where T: Collection {
 fileprivate struct EmptyValidator<T: Collection>: ValidatorType {
 
     /// See `ValidatorType`
-    let readable = "empty"
+    let readable = NSLocalizedString("empty", comment: "'EmptyValidator' readable")
     
     /// See `ValidatorType`
     func validate(_ collection: T) throws {
         guard !collection.isEmpty else { return }
-        throw BasicValidationError("is not empty")
+        throw BasicValidationError(
+            NSLocalizedString("is not empty", comment: "'EmptyValidator' error message")
+        )
     }
 
 }

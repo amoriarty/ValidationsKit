@@ -19,13 +19,15 @@ extension Validator where T == String {
 fileprivate struct PhoneValidator: ValidatorType {
 
     /// See `ValidatorType`.
-    let readable = "phone"
+    let readable = NSLocalizedString("phone", comment: "'PhoneValidator' readable")
 
     /// See `ValidatorType`.
     func validate(_ phone: String) throws {
         guard let range = phone.range(of: "^\\+\\d{11}$", options: [.regularExpression, .caseInsensitive]),
             range.lowerBound == phone.startIndex && range.upperBound == phone.endIndex else {
-            throw BasicValidationError("isn't a valid phone number")
+            throw BasicValidationError(
+                NSLocalizedString("isn't a valid phone number", comment: "'PhoneValidator' error message")
+            )
         }
     }
     

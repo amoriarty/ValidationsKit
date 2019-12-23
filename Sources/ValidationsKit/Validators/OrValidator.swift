@@ -25,7 +25,8 @@ fileprivate struct OrValidator<T> : ValidatorType {
 
     /// See `ValidatorType`.
     var readable: String {
-        return "\(lhs.readable) or \(rhs.readable)"
+        let localised = NSLocalizedString("%@ or %@", comment: "'OrValidator' readable")
+        return String(format: localised, lhs.readable, rhs.readable)
     }
 
     /// Creates a new `OrValidator`
@@ -66,7 +67,8 @@ fileprivate struct OrValidationError: ValidationError, CustomStringConvertible {
 
     /// Readable description of `ValidationError`s
     var description: String {
-        return "\(lhs) or \(rhs)"
+        let localised = NSLocalizedString("%@ or %@", comment: "'OrValidator' error message")
+        return String(format: localised, "\(lhs)", "\(rhs)")
     }
 
     /// Create a new `OrValidationError`

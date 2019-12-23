@@ -20,7 +20,8 @@ fileprivate struct NotValidator<T>: ValidatorType {
 
     /// See `ValidatorType`.
     var readable: String {
-        return "not \(validator.readable)"
+        let localised = NSLocalizedString("not %@", comment: "'NotValidator' readable")
+        return String(format: localised, validator.readable)
     }
 
     /// Create a new `NotValidator`.
@@ -32,7 +33,8 @@ fileprivate struct NotValidator<T>: ValidatorType {
     func validate(_ data: T) throws {
         do { try validator.validate(data) }
         catch _ as ValidationError { return }
-        throw BasicValidationError("is \(validator.readable)")
+        let localised = NSLocalizedString("is %@", comment: "'NotValidator' error message")
+        throw BasicValidationError(String(format: localised, validator.readable))
     }
 
 }

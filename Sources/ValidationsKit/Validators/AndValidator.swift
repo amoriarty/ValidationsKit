@@ -25,7 +25,8 @@ fileprivate struct AndValidator<T>: ValidatorType {
 
     /// See `ValidatorType`.
     var readable: String {
-        return "\(lhs.readable) and \(rhs.readable)"
+        let localised = NSLocalizedString("%@ and %@", comment: "'AndValidator' readable")
+        return String(format: localised, lhs.readable, rhs.readable)
     }
 
     /// Create a new `AndValidator`.
