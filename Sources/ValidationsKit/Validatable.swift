@@ -23,10 +23,18 @@ extension Validatable {
         try Self.validations().run(on: self)
     }
 
-    /// Validate a single field of the model, throwing an error is no `Validator` has been defined or if the validations fails.
-    /// - parameter keyPath: `KeyPath` of the model to validates.
-    public func validate(at keyPath: PartialKeyPath<Self>) throws {
-        try Self.validations().run(on: self, at: keyPath)
+    /// Validate defined fields of the model
+    /// - parameters keyPaths: `KeyPath`s of the model to validates.
+    /// - throws: `UndefinedValidationError` is no validator has been defined, `ValidationError` if validation fails.
+    public func validate(at keyPaths: PartialKeyPath<Self>...) throws {
+        try validate(at: keyPaths)
+    }
+
+    /// Validate defined fields of the model.
+    /// - parameter keyPath: `KeyPath`s of the model to validates.
+    /// - throws: `UndefinedValidationError` is no validator has been defined, `ValidationError` if validation fails.
+    public func validate(at keyPaths: [PartialKeyPath<Self>]) throws {
+        try Self.validations().run(on: self, at: keyPaths)
     }
 
 }

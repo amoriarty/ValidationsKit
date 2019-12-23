@@ -67,10 +67,10 @@ catch {
 }
 ```
 
-Or you can validate a single field, specified at `keyPath`:
+Or you can validate only specified fields:
 
 ```swift
-try valid.validate(at: \User.mail)
+try valid.validate(at: \User.mail, \User.password)
 ```
 
 Finally, you can now define your own message to be thrown in a case of validations failure, which can be handy to pass some localised string or just display some custom message to end user:
