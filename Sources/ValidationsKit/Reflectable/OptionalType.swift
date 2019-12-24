@@ -23,12 +23,12 @@ extension Optional: OptionalType {
     public var wrapped: Wrapped? {
         switch self {
         case .none: return nil
-        case .some(let w): return w
+        case .some(let wrapped): return wrapped
         }
     }
 
     /// See `OptionalType.makeOptionalType`
-    public static func makeOptionalType(_ wrapped: Wrapped?) -> Optional<Wrapped> {
+    public static func makeOptionalType(_ wrapped: Wrapped?) -> Wrapped? {
         return wrapped
     }
 }

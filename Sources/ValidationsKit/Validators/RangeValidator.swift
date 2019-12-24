@@ -36,7 +36,7 @@ extension Validator where T: Comparable & Strideable {
 }
 
 /// Validates whether the data is within a supplied int range.
-fileprivate struct RangeValidator<T>: ValidatorType where T: Comparable {
+private struct RangeValidator<T>: ValidatorType where T: Comparable {
 
     /// See `ValidatorType`.
     let readable = "range"

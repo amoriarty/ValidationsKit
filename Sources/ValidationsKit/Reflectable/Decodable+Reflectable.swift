@@ -1,4 +1,3 @@
-
 /// Default `Reflectable` implementation for types that are also `Decodable`.
 extension Reflectable where Self: Decodable {
 
@@ -20,7 +19,8 @@ extension Reflectable where Self: Decodable {
 
 extension Decodable {
 
-    /// Decodes all `CodableProperty`s for this type. This requires that all propeties on this type are `ReflectionDecodable`.
+    /// Decodes all `CodableProperty`s for this type.
+    /// This requires that all propeties on this type are `ReflectionDecodable`.
     ///
     /// This is used to provide a default implementation for `reflectProperties(depth:)` on `Reflectable`.
     ///
@@ -67,7 +67,7 @@ extension Decodable {
         }
 
         var maxDepth = 0
-        a: while true {
+        while true {
             defer { maxDepth += 1 }
             var activeOffset = 0
 
@@ -86,11 +86,14 @@ extension Decodable {
                     break b
                 }
 
-                guard let t = valueType as? AnyReflectionDecodable.Type, let left = decoded[keyPath: keyPath] else {
+                guard
+                    let valueType = valueType as? AnyReflectionDecodable.Type,
+                    let left = decoded[keyPath: keyPath]
+                else {
                     break b
                 }
 
-                if try t.anyReflectDecodedIsLeft(left) {
+                if try valueType.anyReflectDecodedIsLeft(left) {
                     let property = ReflectedProperty(any: valueType, at: codingPath.map { $0.stringValue })
                     ReflectedPropertyCache.storage[keyPath] = property
                     return property

@@ -20,7 +20,7 @@ extension Validator where T == String {
 }
 
 /// Validate whether a `String` is a valid URL.
-fileprivate struct URLValidator: ValidatorType {
+private struct URLValidator: ValidatorType {
 
     /// See `ValidatorType`.
     let readable = "url"

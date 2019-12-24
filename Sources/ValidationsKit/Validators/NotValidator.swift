@@ -8,12 +8,12 @@
 import Foundation
 
 /// Inverts a `Validator`.
-public prefix func !<T>(validator: Validator<T>) -> Validator<T> {
+public prefix func ! <T>(validator: Validator<T>) -> Validator<T> {
     return NotValidator(validator).validator()
 }
 
 /// Inverts a `Validator`.
-fileprivate struct NotValidator<T>: ValidatorType {
+private struct NotValidator<T>: ValidatorType {
 
     /// The `Validator` to invert.
     private let validator: Validator<T>
@@ -30,8 +30,9 @@ fileprivate struct NotValidator<T>: ValidatorType {
 
     /// See `ValidatorType`
     func validate(_ data: T) throws {
-        do { try validator.validate(data) }
-        catch _ as ValidationError { return }
+        do {
+            try validator.validate(data)
+        } catch _ as ValidationError { return }
         throw BasicValidationError("is \(validator.readable)")
     }
 

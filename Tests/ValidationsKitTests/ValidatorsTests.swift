@@ -75,16 +75,28 @@ final class ValidatorsTests: XCTestCase {
     }
 
     func testASCIIValidator() {
-        XCTAssertNoThrow(try Validator<String>.ascii.validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
+        XCTAssertNoThrow(
+            try Validator<String>.ascii.validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+        )
         XCTAssertNoThrow(try Validator<String>.ascii.validate("\n\r\t"))
         XCTAssertNoThrow(try Validator<String>.ascii.validate(" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"))
         XCTAssertThrowsError(try Validator<String>.ascii.validate("\n\r\t\u{129}"))
-        XCTAssertThrowsError(try Validator<String>.ascii.validate("ABCDEFGHIJKLMNOPQR🤠STUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"))
+        XCTAssertThrowsError(
+            try Validator<String>.ascii.validate("ABCDEFGHIJKLMNOPQR🤠STUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+        )
     }
 
     func testAlphanumericValidator() {
-        XCTAssertNoThrow(try Validator<String>.alphanumeric.validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
-        XCTAssertThrowsError(try Validator<String>.alphanumeric.validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"))
+        XCTAssertNoThrow(
+            try Validator<String>
+                .alphanumeric
+                .validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+        )
+        XCTAssertThrowsError(
+            try Validator<String>
+                .alphanumeric
+                .validate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+        )
     }
 
     func testEmptyValidator() {

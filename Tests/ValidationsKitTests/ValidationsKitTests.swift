@@ -33,7 +33,7 @@ struct UserModel: Validatable {
             throw BasicValidationError("isn't a valid Twitter username")
         })
 
-        validations.add(\.customMessage, at: ["customMessage"], !.empty) { customMessage in
+        validations.add(\.customMessage, at: ["customMessage"], !.empty) { _ in
             return "this custom error message should appear instead of the auto generated one"
         }
 

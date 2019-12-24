@@ -22,7 +22,7 @@ final class RegistrationButton: UITableViewCell {
         addSubview(button)
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
+            button.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 
