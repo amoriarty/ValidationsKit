@@ -43,15 +43,17 @@ public struct Validations<Model> where Model: Validatable {
                                 message: ((T) -> String)? = nil) {
         storage[keyPath] = Validator<Model>(
             readable,
-            message: message != nil ? { model in message!(model[keyPath: keyPath]) } : nil
-        ) { model in
-            do { try validator(model[keyPath: keyPath]) }
-            catch {
-                guard var err = error as? ValidationError else { throw error }
-                err.path = path
-                throw err
+            message: message != nil ? { model in message!(model[keyPath: keyPath]) } : nil,
+            validator: { model in
+                do {
+                    try validator(model[keyPath: keyPath])
+                } catch {
+                    guard var err = error as? ValidationError else { throw error }
+                    err.path = path
+                    throw err
+                }
             }
-        }
+        )
     }
 
     /// Runs the `Validation`s on an instance of `Model`.
@@ -98,7 +100,6 @@ extension Validations where Model: Reflectable {
                                 message: ((T) -> String)? = nil) throws {
         try add(keyPath, at: Model.reflectProperty(forKey: keyPath)?.path ?? [], validator, message: message)
     }
-
 
     /// Adds a new custom `Validation` at the supplied key path. Readable path will be reflected.
     ///

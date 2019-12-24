@@ -22,7 +22,7 @@ extension Validator where T: Equatable {
 }
 
 /// Validates wheter an item is contained in the supplied array.
-fileprivate struct InValidator<T: Equatable>: ValidatorType {
+private struct InValidator<T: Equatable>: ValidatorType {
 
     /// Array to check against.
     private let array: [T]

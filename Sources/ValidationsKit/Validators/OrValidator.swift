@@ -9,13 +9,13 @@ import Foundation
 
 /// Combines two `Validator`s.
 /// Succeed if either of the `Validator`s doesn't fail.
-public func ||<T>(lhs: Validator<T>, rhs: Validator<T>) -> Validator<T> {
+public func || <T>(lhs: Validator<T>, rhs: Validator<T>) -> Validator<T> {
     return OrValidator(lhs, rhs).validator()
 }
 
 /// Combines two `Validator`s.
 /// If either is true, the validation will succeed.
-fileprivate struct OrValidator<T> : ValidatorType {
+private struct OrValidator<T>: ValidatorType {
 
     /// Left hand `Validator`.
     private let lhs: Validator<T>
@@ -36,10 +36,12 @@ fileprivate struct OrValidator<T> : ValidatorType {
 
     /// See `ValidatorType`.
     func validate(_ data: T) throws {
-        do { try lhs.validate(data) }
-        catch let left as ValidationError {
-            do { try rhs.validate(data) }
-            catch let right as ValidationError {
+        do {
+            try lhs.validate(data)
+        } catch let left as ValidationError {
+            do {
+                try rhs.validate(data)
+            } catch let right as ValidationError {
                 throw OrValidationError(left, right)
             }
         }
@@ -48,7 +50,7 @@ fileprivate struct OrValidator<T> : ValidatorType {
 }
 
 /// Error thrown if both validations of an `OrValidator` fails.
-fileprivate struct OrValidationError: ValidationError, CustomStringConvertible {
+private struct OrValidationError: ValidationError, CustomStringConvertible {
 
     /// Error thrown by the left `Validator`.
     private var lhs: ValidationError

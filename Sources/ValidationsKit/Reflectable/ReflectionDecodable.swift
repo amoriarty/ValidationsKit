@@ -1,10 +1,14 @@
 import Foundation
 
-/// Types conforming to this protocol can be created dynamically for use in reflecting the structure of a `Decodable` type.
+// Force cast is disable since this code is a direct import from vapor and should not be touch to much
+// swiftlint:disable force_cast
+
+/// Types conforming to this protocol can be created dynamically
+/// for use in reflecting the structure of a `Decodable` type.
 ///
-/// `ReflectionDecodable` requires that a type declare two _distinct_ representations of itself. It also requires that the type
-/// declare a method for comparing those two representations. If the conforming type is already equatable, this method will
-/// not be required.
+/// `ReflectionDecodable` requires that a type declare two _distinct_ representations of itself.
+/// It also requires that the type declare a method for comparing those two representations.
+/// If the conforming type is already equatable, this method will not be required.
 ///
 /// A `Bool` is a simple type that is capable of conforming to `ReflectionDecodable`:
 ///
@@ -12,8 +16,9 @@ import Foundation
 ///         static func reflectDecoded() -> (Bool, Bool) { return (false, true) }
 ///     }
 ///
-/// For some types, like an `enum` with only one case, it is impossible to conform to `ReflectionDecodable`. In these situations
-/// you must expand the type to have at least two distinct cases, or use a different method of reflection.
+/// For some types, like an `enum` with only one case, it is impossible to conform to `ReflectionDecodable`.
+/// In these situations you must expand the type to have at least two distinct cases,
+/// or use a different method of reflection.
 ///
 ///     enum Pet { case cat } // unable to conform
 ///
@@ -24,7 +29,8 @@ import Foundation
 ///         static func reflectDecoded() -> (Pet, Pet) { return (.cat, .dog) }
 ///     }
 ///
-/// Many types already conform to `ReflectionDecodable` such as `String`, `Int`, `Double`, `UUID`, `Array`, `Dictionary`, and `Optional`.
+/// Many types already conform to `ReflectionDecodable`
+/// such as `String`, `Int`, `Double`, `UUID`, `Array`, `Dictionary`, and `Optional`.
 ///
 /// Other types will have free implementation provided when conformance is added, like `RawRepresentable` types.
 ///
@@ -33,7 +39,7 @@ import Foundation
 ///     }
 ///
 public protocol ReflectionDecodable: AnyReflectionDecodable {
-    
+
     /// Returns a tuple containing two _distinct_ instances for this type.
     ///
     ///     extension Bool: ReflectionDecodable {
@@ -51,7 +57,8 @@ public protocol ReflectionDecodable: AnyReflectionDecodable {
     ///         static func reflectDecoded() -> (Pet, Pet) { return (cat, dog) }
     ///     }
     ///
-    /// In the case of the above example, this method should return `true` if supplied `Pet.cat` and false for anything else.
+    /// In the case of the above example,
+    /// this method should return `true` if supplied `Pet.cat` and false for anything else.
     /// This method is automatically implemented for types that conform to `Equatable.
     ///
     /// - throws: Any errors comparing instances.
@@ -270,7 +277,8 @@ extension ReflectionDecodable {
 
 }
 
-/// Trys to cast a type to `AnyReflectionDecodable.Type`. This can be removed when conditional conformance supports runtime querying.
+/// Trys to cast a type to `AnyReflectionDecodable.Type`.
+/// This can be removed when conditional conformance supports runtime querying.
 func forceCast<T>(_ type: T.Type) throws -> AnyReflectionDecodable.Type {
     guard let casted = T.self as? AnyReflectionDecodable.Type else {
         throw ReflectableError.doesNotConform
@@ -303,3 +311,5 @@ extension ReflectionDecodable where Self: CaseIterable {
     }
 
 }
+
+// swiftlint:enable force_cast

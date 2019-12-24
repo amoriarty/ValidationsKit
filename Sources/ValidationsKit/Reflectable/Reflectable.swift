@@ -1,4 +1,3 @@
-
 /// This protocol allows for reflection of properties on conforming types.
 ///
 /// Ideally Swift type mirroring would handle this completely. In the interim, this protocol

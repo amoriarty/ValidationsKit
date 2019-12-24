@@ -31,9 +31,8 @@ extension Validator where T: Collection {
 
 }
 
-
 /// Validates that number of items in collection is in range.
-fileprivate struct CountValidator<T: Collection>: ValidatorType {
+private struct CountValidator<T: Collection>: ValidatorType {
 
     /// Minimum inclusive possible value, not checked if nil.
     private let min: Int?
