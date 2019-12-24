@@ -16,7 +16,7 @@ extension Validator where T == String {
 }
 
 /// Validates whether a `String` is a valid phone number.
-fileprivate struct PhoneValidator: ValidatorType {
+private struct PhoneValidator: ValidatorType {
 
     /// See `ValidatorType`.
     let readable = "phone"
@@ -28,5 +28,5 @@ fileprivate struct PhoneValidator: ValidatorType {
             throw BasicValidationError("isn't a valid phone number")
         }
     }
-    
+
 }

@@ -25,7 +25,7 @@ public struct Validator<T> {
     /// - parameter readable: Readable name, suitable for placing after `is` _and_ `is not`.
     /// - parameter message: Error message provided by the user to throw in case of validation failure
     /// - parameter validate: Validates the supplied `ValidationData`, throwing and error if it is not valid.
-    public init(_ readable: String, message: ((T) -> String)? = nil, _ validator: @escaping (T) throws -> Void) {
+    public init(_ readable: String, message: ((T) -> String)? = nil, validator: @escaping (T) throws -> Void) {
         self.readable = readable
         self.message = message
         self.validator = validator

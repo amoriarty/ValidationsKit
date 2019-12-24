@@ -9,28 +9,28 @@ import Foundation
 
 /// Combines an optional and non-optional `Validator` using OR logic.
 /// The non-optional validator will simply ignore `nil` values, assuming the other `Validator` handles them.
-public func ||<T>(lhs: Validator<T?>, rhs: Validator<T>) -> Validator<T?> {
+public func || <T>(lhs: Validator<T?>, rhs: Validator<T>) -> Validator<T?> {
     return lhs || NilIgnoringValidator(rhs).validator()
 }
 
 /// Combines an optional and non-optional `Validator` using OR logic.
 /// The non-optional validator will simply ignore `nil` values, assuming the other `Validator` handles them.
-public func ||<T>(lhs: Validator<T>, rhs: Validator<T?>) -> Validator<T?> {
+public func || <T>(lhs: Validator<T>, rhs: Validator<T?>) -> Validator<T?> {
     return NilIgnoringValidator(lhs).validator() || rhs
 }
 /// Combines an optional and non-optional `Validator` using AND logic.
 /// The non-optional validator will simply ignore `nil` values, assuming the other `Validator` handles them.
-public func &&<T>(lhs: Validator<T?>, rhs: Validator<T>) -> Validator<T?> {
+public func && <T>(lhs: Validator<T?>, rhs: Validator<T>) -> Validator<T?> {
     return lhs && NilIgnoringValidator(rhs).validator()
 }
 /// Combines an optional and non-optional `Validator` using AND logic.
 /// The non-optional validator will simply ignore `nil` values, assuming the other `Validator` handles them.
-public func &&<T>(lhs: Validator<T>, rhs: Validator<T?>) -> Validator<T?> {
+public func && <T>(lhs: Validator<T>, rhs: Validator<T?>) -> Validator<T?> {
     return NilIgnoringValidator(lhs).validator() && rhs
 }
 
 /// A `Validator` that ignore nil values.
-fileprivate struct NilIgnoringValidator<T>: ValidatorType {
+private struct NilIgnoringValidator<T>: ValidatorType {
 
     /// Right hand `Validator`
     private let validator: Validator<T>

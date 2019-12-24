@@ -1,3 +1,6 @@
+// Force cast is disable since this code is a direct import from vapor and should not be touch to much
+// swiftlint:disable force_cast
+
 /// Internal types for powering the default implementation of `Reflectable` for `Decodable` types.
 ///
 /// See `Decodable.decodeProperties(depth:)` and `Decodable.decodeProperty(forKey:)` for more information.
@@ -60,7 +63,7 @@ struct ReflectionDecoder: Decoder {
         self.context = context
     }
 
-    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key: CodingKey {
         return .init(ReflectionKeyedDecoder<Key>(codingPath: codingPath, context: context))
     }
 
@@ -125,7 +128,8 @@ final class ReflectionKeyedDecoder<K>: KeyedDecodingContainerProtocol where K: C
         return true
     }
 
-    func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: K) throws -> KeyedDecodingContainer<NestedKey> where NestedKey: CodingKey {
+    func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: K)
+        throws -> KeyedDecodingContainer<NestedKey> where NestedKey: CodingKey {
         return .init(ReflectionKeyedDecoder<NestedKey>(codingPath: codingPath + [key], context: context))
     }
 
@@ -141,7 +145,7 @@ final class ReflectionKeyedDecoder<K>: KeyedDecodingContainerProtocol where K: C
         return ReflectionDecoder(codingPath: codingPath + [key], context: context)
     }
 
-    func decode<T>(_ type: T.Type, forKey key: K) throws -> T where T : Decodable {
+    func decode<T>(_ type: T.Type, forKey key: K) throws -> T where T: Decodable {
         if nextIsOptional {
             context.addProperty(type: T?.self, at: codingPath + [key])
             nextIsOptional = false
@@ -162,7 +166,7 @@ final class ReflectionKeyedDecoder<K>: KeyedDecodingContainerProtocol where K: C
 }
 
 /// Unkeyed decoder for codable reflection.
-fileprivate struct ReflectionUnkeyedDecoder: UnkeyedDecodingContainer {
+private struct ReflectionUnkeyedDecoder: UnkeyedDecodingContainer {
     var count: Int?
     var isAtEnd: Bool
     var currentIndex: Int
@@ -188,7 +192,7 @@ fileprivate struct ReflectionUnkeyedDecoder: UnkeyedDecodingContainer {
         return true
     }
 
-    mutating func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
+    mutating func decode<T>(_ type: T.Type) throws -> T where T: Decodable {
         context.addProperty(type: [T].self, at: codingPath)
         isAtEnd = true
         if let type = T.self as? AnyReflectionDecodable.Type, let reflected = try? type.anyReflectDecoded() {
@@ -199,7 +203,8 @@ fileprivate struct ReflectionUnkeyedDecoder: UnkeyedDecodingContainer {
         }
     }
 
-    mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
+    mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type)
+        throws -> KeyedDecodingContainer<NestedKey> where NestedKey: CodingKey {
         return .init(ReflectionKeyedDecoder<NestedKey>(codingPath: codingPath, context: context))
     }
 
@@ -211,3 +216,5 @@ fileprivate struct ReflectionUnkeyedDecoder: UnkeyedDecodingContainer {
         return ReflectionDecoder(codingPath: codingPath, context: context)
     }
 }
+
+// swiftlint:enable force_cast

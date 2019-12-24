@@ -25,7 +25,7 @@ final class RegistrationCell: UITableViewCell {
             field.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             field.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             field.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
-            field.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
+            field.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25)
         ])
     }
 

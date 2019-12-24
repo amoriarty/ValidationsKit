@@ -9,13 +9,13 @@ import Foundation
 
 /// Combines two `Validator`s using AND logic.
 /// Succeeding if both `Validator`s succeed without error.
-public func &&<T>(lhs: Validator<T>, rhs: Validator<T>) -> Validator<T> {
+public func && <T>(lhs: Validator<T>, rhs: Validator<T>) -> Validator<T> {
     return AndValidator(lhs, rhs).validator()
 }
 
 /// Combines two `Validator`s.
 /// If either both succeed, the validation will succeed.
-fileprivate struct AndValidator<T>: ValidatorType {
+private struct AndValidator<T>: ValidatorType {
 
     /// Left hand `Validator`.
     private let lhs: Validator<T>

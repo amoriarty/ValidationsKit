@@ -27,13 +27,12 @@ extension Validator where T == String {
 }
 
 /// Unions two character sets.
-public func +(lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
+public func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
     return lhs.union(rhs)
 }
 
-
 /// Validates that a `String` contains characters in a given `CharacterSet`
-fileprivate struct CharacterSetValidator: ValidatorType {
+private struct CharacterSetValidator: ValidatorType {
 
     /// `CharacterSet` to validate against.
     let set: CharacterSet
@@ -51,9 +50,9 @@ fileprivate struct CharacterSetValidator: ValidatorType {
     }
 
     /// See `ValidatorType`
-    public func validate(_ s: String) throws {
-        guard let range = s.rangeOfCharacter(from: set.inverted) else { return }
-        var reason = "contains an invalid character: '\(s[range])'"
+    public func validate(_ data: String) throws {
+        guard let range = data.rangeOfCharacter(from: set.inverted) else { return }
+        var reason = "contains an invalid character: '\(data[range])'"
 
         guard set.traits.count > 0 else { throw BasicValidationError(reason) }
         let string = set.traits.joined(separator: ", ")
@@ -69,15 +68,14 @@ extension CharacterSet {
     fileprivate static var ascii: CharacterSet {
         var ascii = CharacterSet()
 
-        for i in 0..<128 {
-            ascii.insert(Unicode.Scalar(i)!)
+        for iterator in 0..<128 {
+            ascii.insert(Unicode.Scalar(iterator)!)
         }
 
         return ascii
     }
 
 }
-
 
 extension CharacterSet {
 

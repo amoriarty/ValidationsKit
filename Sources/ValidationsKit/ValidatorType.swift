@@ -8,7 +8,7 @@
 import Foundation
 
 /// Capable of validating `ValidationData` or throwing a validation error.
-/// Use this protocol to organize code for creating `Validator`s.
+/// Use this protocol to organise code for creating `Validator`s.
 public protocol ValidatorType {
 
     /// Data type to validate.
@@ -26,7 +26,7 @@ extension ValidatorType {
 
     /// Create a `Validator` for this `ValidatorType`.
     public func validator() -> Validator<ValidationData> {
-        return Validator(readable, validate)
+        return Validator(readable, validator: validate)
     }
 
 }

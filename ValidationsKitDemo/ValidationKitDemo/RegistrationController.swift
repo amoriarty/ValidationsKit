@@ -21,7 +21,7 @@ final class RegistrationController: UITableViewController {
 
 }
 
-// MARK:- Table View Datasource
+// MARK: - Table View Datasource
 
 extension RegistrationController {
 
@@ -31,12 +31,16 @@ extension RegistrationController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.row < RegistrationField.allCases.count else {
+            // Force cast is disable because the application should crash if not a `RegistrationButton`
+            // swiftlint:disable:next force_cast
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCell, for: indexPath) as! RegistrationButton
             cell.button.removeTarget(self, action: nil, for: .touchUpInside)
             cell.button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
             return cell
         }
 
+        // Force cast is disable because the application should crash if not a `RegistrationCell`
+        // swiftlint:disable:next force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: fieldCell, for: indexPath) as! RegistrationCell
         let field = RegistrationField.allCases[indexPath.row]
         cell.field.tag = field.rawValue
@@ -53,17 +57,22 @@ extension RegistrationController {
 
 }
 
-// MARK:- Button Handler
+// MARK: - Button Handler
 
 extension RegistrationController {
 
     @objc private func handleRegistration() {
         let fields = RegistrationField.allCases.map { field -> UITextField in
+            // Force cast is disable because the application should crash if not a `RegistrationCell`
+            // swiftlint:disable:next force_cast
             let cell = tableView.cellForRow(at: IndexPath(row: field.rawValue, section: 0)) as! RegistrationCell
             return cell.field
         }
 
-        let website = !fields[RegistrationField.website.rawValue].text!.isEmpty ? fields[RegistrationField.website.rawValue].text : nil
+        let website = !fields[RegistrationField.website.rawValue].text!.isEmpty
+            ? fields[RegistrationField.website.rawValue].text
+            : nil
+
         let user = RegistrationUser(username: fields[RegistrationField.username.rawValue].text ?? "",
                                     password: fields[RegistrationField.password.rawValue].text ?? "",
                                     mail: fields[RegistrationField.mail.rawValue].text ?? "",
@@ -73,8 +82,7 @@ extension RegistrationController {
             try user.validate()
             let controller = SuccessController()
             navigationController?.pushViewController(controller, animated: true)
-        }
-        catch {
+        } catch {
             let controller = UIAlertController(title: "Validation Error", message: "\(error)", preferredStyle: .alert)
             let dismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             controller.addAction(dismiss)

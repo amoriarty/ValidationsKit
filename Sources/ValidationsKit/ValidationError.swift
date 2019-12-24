@@ -40,7 +40,7 @@ public struct BasicValidationError: ValidationError, CustomStringConvertible {
         self.message = message
         self.path = path
     }
-    
+
 }
 
 /// Error thrown when trying a single field validation with no `Validator` defined.
