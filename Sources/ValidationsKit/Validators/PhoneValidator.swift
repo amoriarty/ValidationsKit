@@ -9,8 +9,8 @@ import Foundation
 
 extension Validator where T == String {
 
-    /// Validates whether a `String` is a valid phone number.
-    static var phone: Validator<T> {
+    /// Validates whether a `String` is a valid international phone number.
+    public static var phone: Validator<T> {
         return PhoneValidator().validator()
     }
 }
@@ -23,8 +23,10 @@ private struct PhoneValidator: ValidatorType {
 
     /// See `ValidatorType`.
     func validate(_ phone: String) throws {
-        guard let range = phone.range(of: "^\\+\\d{11}$", options: [.regularExpression, .caseInsensitive]),
-            range.lowerBound == phone.startIndex && range.upperBound == phone.endIndex else {
+        guard
+            let range = phone.range(of: "^\\+[0-9]{1,15}$", options: [.regularExpression, .caseInsensitive]),
+            range.lowerBound == phone.startIndex && range.upperBound == phone.endIndex
+        else {
             throw BasicValidationError("isn't a valid phone number")
         }
     }

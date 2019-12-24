@@ -35,6 +35,11 @@ final class ValidatorsTests: XCTestCase {
 
     func testPhoneValidator() {
         XCTAssertNoThrow(try Validator<String>.phone.validate("+33642424242"))
+
+        XCTAssertThrowsError(try Validator<String>.phone.validate("0642424242")) { error in
+            XCTAssertEqual("\(error)", "data isn't a valid phone number")
+        }
+
         XCTAssertThrowsError(try Validator<String>.phone.validate("42")) { error in
             XCTAssertEqual("\(error)", "data isn't a valid phone number")
         }
