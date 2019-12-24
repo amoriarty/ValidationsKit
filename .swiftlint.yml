@@ -1,0 +1,14 @@
+custom_rules:
+  commented_code:
+    regex: '(?<!:|\/)\/\/\h*[a-z.](?!wiftlint)'
+    message: "Comment starting with lowercase letter - did you forget to delete old code?"
+  multiline_commented_code:
+    regex: '^\s*[a-z]'
+    match_kinds: comment
+    message: "Comment starting with lowercase letter - did you forget to delete old code?"
+  already_true:
+    regex: "== true"
+    message: "Don't compare to true, just use the bool value."
+  already_bool:
+    regex: "== false"
+    message: "Don't compare to false, just use !value."
