@@ -1,5 +1,5 @@
 PODS:
-  - ValidationsKit (1.2.0)
+  - ValidationsKit (1.2.1)
 
 DEPENDENCIES:
   - ValidationsKit (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ValidationsKit: ebccd9615a5268202878189b9daa93d3099776b7
+  ValidationsKit: 195f16d903d6dc418275625e79540d34312e7806
 
 PODFILE CHECKSUM: 0b262602b97f0820a6032a181f3e61bef5d49ac7
 
