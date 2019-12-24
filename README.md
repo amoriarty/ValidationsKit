@@ -5,7 +5,7 @@ The purpose of this kit is to bring [vapor/validation](https://github.com/vapor/
 ## Example
 
 Will try to add validations to a `User` model, in order to be conform for a registration process for example.  
-We first have to describe it as we usually do.
+We first have to describe it as we usually do. We also make it conform to `Codable` and `Refletable` so it can naturally get path from the object
 
 ```swift
 struct User {
@@ -15,6 +15,9 @@ struct User {
     let website: String?
     let twitter: String?
 }
+
+extension User: Codable {}
+extension User: Reflectable {}
 ```
 
 Then we have to make this model conform to `Validatable` protocol by adding the `validations()` function. This return a `Validations` object for our model and allow us to add `Validator`s to it.  
@@ -27,19 +30,19 @@ extension User: Validatable {
         var validations = Validations(User.self)
 
         // 'mail' should be a valid mail address.
-        validations.add(\.mail, ["mail"], .mail)
+        validations.add(\.mail, .mail)
 
         // 'phone' should be a valid phone number.
-        validations.add(\.phone, ["phone"], .phone) 
+        validations.add(\.phone, .phone) 
 
         // 'password' should have more than 8 characters.
-        validations.add(\.password, ["password"], .count(8...))
+        validations.add(\.password, .count(8...))
 
         // 'website' should be nil or be a valid url.
-        validations.add(\.website, ["website"], .nil || .url)
+        validations.add(\.website, .nil || .url)
 
         // 'twitter' should be nil or began by '@'.
-        validations.add(\.twitter, at: ["twitter"], validator: { twitter in
+        validations.add(\.twitter, validator: { twitter in
         	guard let twitter = twitter else { return }
             guard twitter.first != "@" else { return }
             throw BasicValidationError("isn't a valid Twitter username")
@@ -82,7 +85,7 @@ struct User: Validatable {
     static func validations() throws -> Validations<User> {
         var validations = Validations(User.self)
         
-        validations.add(\.age, at: ["age"], .range(..< 12) { age in
+        validations.add(\.age, .range(..< 12)) { age in
             "You have to be at most 12 for doing this, \(age) is too old for that stuff..."
         }
         
@@ -98,17 +101,9 @@ do {
 }
 ```
 
-You can also take a look to a demo application in the `ValidationsKitDemo` directory, using Cocoapods.
+You can also take a look to a demo application in the `ValidationsKitDemo` directory.
 
 ## Installation
-### Cocoapods
-
-Simply add this line in you pods dependencies:
-
-```ruby
-pod 'ValidationsKit', '~> 1.1'
-```
-
 ### Swift Package Manager
 
 Add the GitHub link in you `Package.swift` as a dependencies:
@@ -129,9 +124,13 @@ Then update you project with:
 $ swift package update
 ```
 
-## Difference from Vapor package
+### Cocoapods
 
-The main difference from Vapor package is that it doesn't include the `Reflectable` system, that allow you to make your model conform both to `Decodable` and `Reflectable` to avoid typing the key path to show in case of errors, which can lead to errors if variable are rename in the future.
+Simply add this line in you pods dependencies:
+
+```ruby
+pod 'ValidationsKit', '~> 1.1'
+```
 
 ## Thanks
 
