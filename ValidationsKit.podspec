@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'ValidationsKit'
-s.version          = '1.1.0'
+s.version          = '1.2.0'
 s.summary          = 'Model validation for iOS, inspired by Vapor.'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ s.author           = { 'amoriarty' => 'alexandrelegent@gmail.com' }
 s.source           = { :git => 'https://github.com/amoriarty/ValidationsKit.git', :tag => s.version.to_s }
 s.social_media_url = 'https://twitter.com/alex_legent'
 
-s.swift_version = '4.2'
+s.swift_version = '5.1'
 s.ios.deployment_target = '11.0'
 s.source_files = 'Sources/ValidationsKit/**/*'
 
