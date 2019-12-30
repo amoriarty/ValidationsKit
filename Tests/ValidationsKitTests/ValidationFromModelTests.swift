@@ -17,8 +17,9 @@ final class ValidationFromModelTests: XCTestCase {
 
     struct Contact: Codable, Reflectable, Validatable {
         let mail: String
+        let message: String
 
-        var isValid: Bool {
+        var isValidMail: Bool {
             !mail.isEmpty
         }
 
@@ -26,20 +27,28 @@ final class ValidationFromModelTests: XCTestCase {
             var validations = Validations(Contact.self)
 
             validations.add(\.mail, at: ["mail"], withModel: { contact in
-                guard !contact.isValid else { return }
+                guard !contact.isValidMail else { return }
                 throw BasicValidationError("shouldn't be empty")
             })
+
+            try validations.add(\.message, withModel: { contact in
+                guard contact.message.isEmpty else { return }
+                throw BasicValidationError("")
+            }, message: { "message '\($0)' shouldn't be empty" })
 
             return validations
         }
     }
 
     func testValidationFromModel() {
-        XCTAssertNoThrow(try Contact(mail: "user@mail.com").validate())
-        XCTAssertThrowsError(try Contact(mail: "").validate()) { error in
+        XCTAssertNoThrow(try Contact(mail: "user@mail.com", message: "some message").validate())
+        XCTAssertThrowsError(try Contact(mail: "", message: "some message").validate()) { error in
             XCTAssertEqual("\(error)", "'mail' shouldn't be empty")
         }
 
+        XCTAssertThrowsError(try Contact(mail: "user@mail.com", message: "").validate()) { error in
+            XCTAssertEqual("\(error)", "message '' shouldn't be empty")
+        }
     }
 
 }
