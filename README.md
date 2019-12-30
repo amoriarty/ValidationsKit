@@ -109,7 +109,7 @@ You can also take a look to a demo application in the `ValidationsKitDemo` direc
 Add the GitHub link in you `Package.swift` as a dependencies:
 
 ```swift
-.package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.2.1"),
+.package(url: "https://github.com/amoriarty/ValidationsKit", from: "1.3.0"),
 ```
 
 Add the dependency to your target:
@@ -129,7 +129,7 @@ $ swift package update
 Simply add this line in you pods dependencies:
 
 ```ruby
-pod 'ValidationsKit', '~> 1.2.1'
+pod 'ValidationsKit', '~> 1.3.0'
 ```
 
 ## Thanks
