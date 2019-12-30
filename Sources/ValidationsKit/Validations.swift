@@ -56,6 +56,54 @@ public struct Validations<Model> where Model: Validatable {
         )
     }
 
+}
+
+// MARK: - Reflectable
+
+extension Validations where Model: Reflectable {
+
+    /// Adds a new `Validation` at the supplied key path. Readable path will be reflected.
+    ///
+    ///     try validations.add(\.name, .count(5...) && .alphanumeric)
+    ///
+    /// - parameters:
+    ///     - keyPath: `KeyPath` to validatable property.
+    ///     - validator: `Validation` to run on this property.
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
+                                _ validator: Validator<T>,
+                                _ message: ((T) -> String)? = nil) throws {
+        try add(keyPath, at: Model.reflectProperty(forKey: keyPath)?.path ?? [], validator, message: message)
+    }
+
+    /// Adds a new custom `Validation` at the supplied key path. Readable path will be reflected.
+    ///
+    ///     try validations.add(\.name, "is vapor") { name in
+    ///         guard name == "vapor" else { throw }
+    ///     }
+    ///
+    /// - parameters:
+    ///     - keyPath: `KeyPath` to validatable property.
+    ///     - readable: Readable string describing this validation.
+    ///     - validator: Closure accepting the `KeyPath`'s value. Throw a `ValidationError` here if the data is invalid.
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
+                                _ readable: String = "",
+                                validator: @escaping (T) throws -> Void,
+                                message: ((T) -> String)? = nil) throws {
+        try add(
+            keyPath,
+            at: Model.reflectProperty(forKey: keyPath)?.path ?? [],
+            readable,
+            validator: validator,
+            message: message
+        )
+    }
+
+}
+
+// MARK: - Run
+
+extension Validations {
+
     /// Runs the `Validation`s on an instance of `Model`.
     /// - parameter model: Model on which validation must be done.
     func run(on model: Model) throws {
@@ -82,46 +130,6 @@ public struct Validations<Model> where Model: Validatable {
 
             try validation.validate(model)
         }
-    }
-
-}
-
-extension Validations where Model: Reflectable {
-
-    /// Adds a new `Validation` at the supplied key path. Readable path will be reflected.
-    ///
-    ///     try validations.add(\.name, .count(5...) && .alphanumeric)
-    ///
-    /// - parameters:
-    ///     - keyPath: `KeyPath` to validatable property.
-    ///     - validator: `Validation` to run on this property.
-    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
-                                _ validator: Validator<T>,
-                                message: ((T) -> String)? = nil) throws {
-        try add(keyPath, at: Model.reflectProperty(forKey: keyPath)?.path ?? [], validator, message: message)
-    }
-
-    /// Adds a new custom `Validation` at the supplied key path. Readable path will be reflected.
-    ///
-    ///     try validations.add(\.name, "is vapor") { name in
-    ///         guard name == "vapor" else { throw }
-    ///     }
-    ///
-    /// - parameters:
-    ///     - keyPath: `KeyPath` to validatable property.
-    ///     - readable: Readable string describing this validation.
-    ///     - validator: Closure accepting the `KeyPath`'s value. Throw a `ValidationError` here if the data is invalid.
-    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
-                                _ readable: String,
-                                _ validator: @escaping (T) throws -> Void,
-                                message: ((T) -> String)? = nil) throws {
-        try add(
-            keyPath,
-            at: Model.reflectProperty(forKey: keyPath)?.path ?? [],
-            readable,
-            validator: validator,
-            message: message
-        )
     }
 
 }
