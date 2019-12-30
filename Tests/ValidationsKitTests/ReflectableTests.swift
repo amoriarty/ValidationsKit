@@ -11,6 +11,13 @@ import XCTest
 
 final class ReflectableTests: XCTestCase {
 
+    static let allTests = [
+        ("testReflectable", testReflectable),
+        ("testReflectableWithError", testReflectableWithError),
+        ("testReflectableWithCustomError", testReflectableWithCustomError),
+        ("testReflectableWithCustomValidator", testReflectableWithCustomValidator)
+    ]
+
     struct User: Codable, Reflectable, Validatable {
         let username: String
         let password: String

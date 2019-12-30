@@ -41,12 +41,29 @@ public struct Validations<Model> where Model: Validatable {
                                 _ readable: String = "",
                                 validator: @escaping (T) throws -> Void,
                                 message: ((T) -> String)? = nil) {
+        add(keyPath, at: path, readable, withModel: { try validator($0[keyPath: keyPath]) }, message: message)
+    }
+
+    /// Adds a custom validation at the supplied key path and readable,
+    /// with validator taking whole model instead of just the supplied key path.
+    ///
+    /// - parameters:
+    ///     - keyPath: `KeyPath` associated with validation.
+    ///     - path: Readable path. Will be displayed when showing errors.
+    ///     - readable: Readable message. Will be displayed when showing errors.
+    ///     - validation: Validation closure with full model.
+    ///     - message: Error message provided by the user and throw in case of validation error.
+    public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
+                                at path: [String],
+                                _ readable: String = "",
+                                withModel validator: @escaping (Model) throws -> Void,
+                                message: ((T) -> String)? = nil) {
         storage[keyPath] = Validator<Model>(
             readable,
             message: message != nil ? { model in message!(model[keyPath: keyPath]) } : nil,
             validator: { model in
                 do {
-                    try validator(model[keyPath: keyPath])
+                    try validator(model)
                 } catch {
                     guard var err = error as? ValidationError else { throw error }
                     err.path = path
@@ -69,6 +86,7 @@ extension Validations where Model: Reflectable {
     /// - parameters:
     ///     - keyPath: `KeyPath` to validatable property.
     ///     - validator: `Validation` to run on this property.
+    ///     - message: Error message provided by the user and throw in case of validation error.
     public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
                                 _ validator: Validator<T>,
                                 _ message: ((T) -> String)? = nil) throws {
@@ -85,6 +103,7 @@ extension Validations where Model: Reflectable {
     ///     - keyPath: `KeyPath` to validatable property.
     ///     - readable: Readable string describing this validation.
     ///     - validator: Closure accepting the `KeyPath`'s value. Throw a `ValidationError` here if the data is invalid.
+    ///     - message: Error message provided by the user and throw in case of validation error.
     public mutating func add<T>(_ keyPath: KeyPath<Model, T>,
                                 _ readable: String = "",
                                 validator: @escaping (T) throws -> Void,
